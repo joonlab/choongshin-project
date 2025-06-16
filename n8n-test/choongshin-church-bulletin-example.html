@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주일예배 순서지</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f8f8;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        
+        .bulletin {
+            width: 520px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #8B4B9B;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #8B4B9B, #A855C7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .header .date {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+        }
+        
+        .schedule-header {
+            background: #8B4B9B;
+            color: white;
+            text-align: center;
+            padding: 5px;
+            font-size: 11px;
+            display: flex;
+        }
+        
+        .schedule-header > div {
+            flex: 1;
+            padding: 3px;
+            border-right: 1px solid #A855C7;
+        }
+        
+        .schedule-header > div:last-child {
+            border-right: none;
+        }
+        
+        .schedule-content {
+            display: flex;
+            background: #f0f0f0;
+            border-bottom: 2px solid #8B4B9B;
+        }
+        
+        .schedule-content > div {
+            flex: 1;
+            padding: 5px;
+            text-align: center;
+            font-size: 10px;
+            border-right: 1px solid #ccc;
+        }
+        
+        .schedule-content > div:last-child {
+            border-right: none;
+        }
+        
+        .content {
+            padding: 10px;
+        }
+        
+        .service-info {
+            background: #8B4B9B;
+            color: white;
+            padding: 5px 8px;
+            margin-bottom: 10px;
+            font-size: 10px;
+            text-align: center;
+        }
+        
+        .worship-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .worship-table td {
+            padding: 4px 6px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        
+        .worship-table .category {
+            background: #f5f5f5;
+            font-weight: 500;
+            width: 80px;
+            text-align: center;
+        }
+        
+        .worship-table .star {
+            color: #8B4B9B;
+            font-weight: bold;
+        }
+        
+        .worship-table .content-cell {
+            background: white;
+        }
+        
+        .footer-notes {
+            margin-top: 15px;
+            font-size: 9px;
+            color: #666;
+            text-align: left;
+            line-height: 1.5;
+        }
+        
+        .star {
+            color: #8B4B9B;
+            font-weight: bold;
+        }
+        
+        .praise-section {
+            line-height: 1.3;
+        }
+        
+        .hymn-button {
+            display: inline-block;
+            background: #8B4B9B;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 8px;
+            margin-left: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .hymn-button:hover {
+            background: #A855C7;
+        }
+        
+        .hymn-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="bulletin">
+        <div class="header">
+            <h1>주일예배 삼위일체주일</h1>
+            <div class="date">2025. 6. 15. 제68권 24호</div>
+        </div>
+        
+        <div class="schedule-header">
+            <div>1부 예배 (07:00)</div>
+            <div>2부 예배 (08:30)</div>
+            <div>3부 예배 (10:00)</div>
+            <div>4부 예배 (12:00)</div>
+        </div>
+        
+        <div class="schedule-content">
+            <div>송이레 목사</div>
+            <div>오상균 목사</div>
+            <div>박성열 목사</div>
+            <div>김현수 목사</div>
+        </div>
+        
+        <div class="content">
+            <div class="service-info">
+                예배로부름 「기쁨으로 여호와를 섬기며 노래하면서 그의 앞에 나아갈지어다」 시편 100:2
+            </div>
+            
+            <table class="worship-table">
+                <tr>
+                    <td class="category"><span class="star">※</span> <strong>송 영</strong></td>
+                    <td class="content-cell">
+                        <div class="hymn-line">
+                            <span>621장 「찬양하라 내 영혼아」</span>
+                            <a href="https://blog.kakaocdn.net/dn/bgP4ml/btqEFJfK9wR/skCfXMZBoY6bjhwkfMKx11/img.jpg" target="_blank" class="hymn-button">악보보기</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="category"><span class="star">※</span> <strong>개 회 송</strong></td>
+                    <td class="content-cell">오르간</td>
+                </tr>
+                <tr>
+                    <td class="category"><strong>기 원</strong></td>
+                    <td class="content-cell">인도자</td>
+                </tr>
+                <tr>
+                    <td class="category"><strong>송 영</strong></td>
+                    <td class="content-cell">
+                        <div class="hymn-line">
+                            <span>3장 「성부 성자와 성령」</span>
+                            <a href="https://t1.daumcdn.net/cfile/tistory/99A83E345A5841AF08" target="_blank" class="hymn-button">악보보기</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="category"><span class="star">※</span> <strong>성 시 교 독</strong></td>
+                    <td class="content-cell">137번</td>
+                </tr>
+                <tr>
+                    <td class="category"><span class="star">※</span> <strong>사 도 신 경</strong></td>
+                    <td class="content-cell">다같이</td>
+                </tr>
+                <tr>
+                    <td class="category"><strong>찬 송</strong></td>
+                    <td class="content-cell">
+                        <div class="hymn-line">
+                            <span>538장 「죄짐을 지고서 곤하거든」</span>
+                            <a href="https://blog.kakaocdn.net/dn/GUdbc/btqEw3qZx8q/PYqQ55vDlr0GV8flNATqF1/img.jpg" target="_blank" class="hymn-button">악보보기</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="category"><strong>기 도</strong></td>
+                    <td class="content-cell">윤종현 장로&nbsp;&nbsp;&nbsp;&nbsp;윤종현 장로&nbsp;&nbsp;&nbsp;&nbsp;박태석 장로&nbsp;&nbsp;&nbsp;&nbsp;유봉목 장로</td>
+                </tr>
+                <tr>
+                    <td class="category"><strong>성 경 봉 독</strong></td>
+                    <td class="content-cell">창세기 2:1-3 (구약 2면)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;마태복음 11:28-30 (신약 18면)</td>
+                </tr>
+                <tr>
+                    <td class="category"><strong>예 물 봉 헌</strong></td>
+                    <td class="content-cell">다같이</td>
+                </tr>
+                <tr>
+                    <td class="category"><strong>봉 헌 특 송</strong></td>
+                    <td class="content-cell">이유진 교우&nbsp;&nbsp;&nbsp;&nbsp;임영빈 교우&nbsp;&nbsp;&nbsp;&nbsp;이정현 교우&nbsp;&nbsp;&nbsp;&nbsp;이경미 집사</td>
+                </tr>
+                <tr>
+                    <td class="category"><strong>봉 헌 찬 송</strong></td>
+                    <td class="content-cell">
+                        <div class="hymn-line">
+                            <span>211장 「값비싼 향유를 주께 드린」</span>
+                            <a href="https://t1.daumcdn.net/cfile/tistory/992594505D4C205F10" target="_blank" class="hymn-button">악보보기</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="category"><strong>봉 헌 기 도</strong></td>
+                    <td class="content-cell">이전호 목사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;인도자</td>
+                </tr>
+                <tr>
+                    <td class="category"><strong>교 회 소 식</strong></td>
+                    <td class="content-cell">이전호 목사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;인도자</td>
+                </tr>
+                <tr>
+                    <td class="category"><strong>찬 양</strong></td>
+                    <td class="content-cell praise-section">
+                        1부 「그 크신 하나님의 사랑」 갈보리찬양대&nbsp;&nbsp;&nbsp;&nbsp;3부 「시편 23편」 시온찬양대<br>
+                        2부 「기쁨의 소리 높여」 아멘찬양대&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4부 「목마른 내 영혼」 할렐루야찬양대
+                    </td>
+                </tr>
+                <tr>
+                    <td class="category"><strong>말 씀 선 포</strong></td>
+                    <td class="content-cell">
+                        "일터에 베푸신 하나님의 은총" 이전호 목사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"마음 둘 곳" 박종순 목사
+                    </td>
+                </tr>
+                <tr>
+                    <td class="category"><span class="star">※</span> <strong>찬 송</strong></td>
+                    <td class="content-cell">
+                        <div style="display: flex; justify-content: space-between;">
+                            <div class="hymn-line">
+                                <span>370장 「주 안에 있는 나에게」</span>
+                                <a href="https://t1.daumcdn.net/cfile/tistory/99D72E3E5D5E4BDB17" target="_blank" class="hymn-button">악보보기</a>
+                            </div>
+                            <div class="hymn-line">
+                                <span>531장 「자비한 주께서 부르시네」</span>
+                                <a href="https://blog.kakaocdn.net/dn/buJOuw/btqExCmaSoV/jI2IKQXX3wJqjQ14pAuk7k/img.jpg" target="_blank" class="hymn-button">악보보기</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="category"><span class="star">※</span> <strong>축 도</strong></td>
+                    <td class="content-cell">설교자</td>
+                </tr>
+            </table>
+            
+            <div class="footer-notes">
+                ※ 표시는 일어서서<br>
+                *다음주일 기도 1부: 노영옥 장로 2부: 노영옥 장로 3부: 홍승현 장로 4부: 김홍대 장로
+            </div>
+        </div>
+    </div>
+</body>
+</html>
