@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주일예배 주보 (삼위일체주일)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+        body {
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 2rem 1rem;
+        }
+
+        .bulletin-container {
+            font-family: 'Noto Sans KR', sans-serif;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .header {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+            color: #333;
+        }
+
+        .header .subtitle {
+            font-size: 24px;
+            font-weight: 500;
+            color: #555;
+            margin-left: 10px;
+        }
+
+        .header .date-info {
+            text-align: right;
+            font-size: 14px;
+            color: #666;
+            margin: 5px 0 0;
+        }
+
+        .bulletin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+
+        .bulletin-table th, .bulletin-table td {
+            border-bottom: 1px solid #e9e3f3;
+            padding: 12px 10px;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        /* --- 구분선 스타일 --- */
+        .bulletin-table thead th:not(:first-child):not(:last-child) {
+            border-right: 1px solid #8266b2; 
+        }
+        .bulletin-table tbody td:not(:last-child) {
+            border-right: 1px solid #e9e3f3;
+        }
+        
+        .no-internal-divider > td:not(:first-child) {
+            border-right: none;
+        }
+        .no-internal-divider > td:first-child {
+             border-right: 1px solid #e9e3f3;
+        }
+        
+        .bulletin-table thead th {
+            background-color: #6a4c9c;
+            color: white;
+            font-weight: 500;
+            font-size: 16px;
+            border-bottom: 2px solid #4a356d;
+        }
+        
+        .bulletin-table thead th:first-child {
+            background-color: transparent;
+        }
+
+        .bulletin-table tbody td:first-child {
+            width: 120px;
+            font-weight: 700;
+            color: #333;
+            background-color: #f8f6fb;
+        }
+        
+        .choir { font-size: 0.9em; color: #777; font-weight: 400; display: block; margin-top: 4px; }
+        .sermon { font-size: 1.1em; font-weight: 500; }
+        .preacher { display: block; font-weight: 400; font-size: 0.9em; margin-top: 4px; }
+
+        /* [MASTER'S ADDITION] 버튼 스타일 */
+        .hymn-button, .content-button {
+            display: inline-block;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            vertical-align: middle;
+        }
+        .hymn-button { background-color: #6a4c9c; }
+        .hymn-button:hover { background-color: #583f87; }
+        .content-button { background-color: #8e7cc3; }
+        .content-button:hover { background-color: #7b68b0; }
+
+        .footer-notes { padding-top: 15px; margin-top: 20px; font-size: 14px; color: #555; line-height: 1.7; }
+        .footer-notes p { margin: 4px 0; }
+        .footer-notes strong { font-weight: 700; color: #333; }
+
+        /* [MASTER'S ADDITION] 모달(팝업) 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 25px 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 650px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .close-button:hover, .close-button:focus {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #modalTitle {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        #modalBody { max-height: 65vh; overflow-y: auto; line-height: 1.8; color: #444; font-size: 16px; }
+        
+        /* 모달 내용 포맷팅 */
+        #modalBody p { margin: 0 0 1em 0; }
+        #modalBody p:last-child { margin-bottom: 0; }
+        
+        .scripture-body .verse-number { font-weight: bold; color: #6a4c9c; margin-right: 5px; }
+        
+        .responsive-reading-item { display: flex; align-items: flex-start; margin-bottom: 12px; }
+        .speaker-label {
+            flex-shrink: 0;
+            width: 60px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            margin-right: 12px;
+        }
+        .speaker-leader { background-color: #6a4c9c; }
+        .speaker-congregation { background-color: #a089c8; }
+        .speaker-all { background-color: #4a356d; }
+    </style>
+</head>
+<body>
+
+    <div class="bulletin-container">
+        <div class="header">
+            <h2>주일예배 <span class="subtitle">삼위일체주일</span></h2>
+            <p class="date-info">2025. 6. 15. 제68권 24호</p>
+        </div>
+
+        <table class="bulletin-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>1부 예배 (07:00)</th>
+                    <th>2부 예배 (08:30)</th>
+                    <th>3부 예배 (10:00)</th>
+                    <th>4부 예배 (12:00)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>인 도</td>
+                    <td>송이레 목사</td>
+                    <td>오상균 목사</td>
+                    <td>박성열 목사</td>
+                    <td>김현수 목사</td>
+                </tr>
+                <tr class="no-internal-divider">
+                    <td>예배로부름</td>
+                    <td colspan="4">「기쁨으로 여호와를 섬기며 노래하면서 그의 앞에 나아갈지어다」 시편 100:2 <button class="content-button" data-content-id="psalm-100-2">내용 보기</button></td>
+                </tr>
+                <tr class="no-internal-divider">
+                    <td>※ 송 영</td>
+                    <td colspan="4">621장 「찬양하라 내 영혼아」 <a href="https://blog.kakaocdn.net/dn/bgP4ml/btqEFJfK9wR/skCfXMZBoY6bjhwkfMKx11/img.jpg" target="_blank" class="hymn-button">악보 보기</a></td>
+                </tr>
+                <tr class="no-internal-divider">
+                    <td>※ 개 회 송</td>
+                    <td colspan="4">오르간</td>
+                </tr>
+                <tr class="no-internal-divider">
+                    <td>기 원</td>
+                    <td colspan="4">인도자</td>
+                </tr>
+                <tr class="no-internal-divider">
+                    <td>송 영</td>
+                    <td colspan="4">3장 「성부 성자와 성령」 <a href="https://t1.daumcdn.net/cfile/tistory/99A83E345A5841AF08" target="_blank" class="hymn-button">악보 보기</a></td>
+                </tr>
+                <tr class="no-internal-divider">
+                    <td>※ 성시교독</td>
+                    <td colspan="4">137번 <button class="content-button" data-content-id="responsive-137">내용 보기</button></td>
+                </tr>
+                <tr class="no-internal-divider">
+                    <td>※ 사도신경</td>
+                    <td colspan="4">다같이 <button class="content-button" data-content-id="apostles-creed">내용 보기</button></td>
+                </tr>
+                <tr class="no-internal-divider">
+                    <td>찬 송</td>
+                    <td colspan="4">538장 「죄짐을 지고서 곤하거든」 <a href="https://blog.kakaocdn.net/dn/GUdbc/btqEw3qZx8q/PYqQ55vDlr0GV8flNATqF1/img.jpg" target="_blank" class="hymn-button">악보 보기</a></td>
+                </tr>
+                <tr>
+                    <td>기 도</td>
+                    <td>윤종현 장로</td>
+                    <td>윤종현 장로</td>
+                    <td>박태석 장로</td>
+                    <td>유봉목 장로</td>
+                </tr>
+                <tr>
+                    <td>성경봉독</td>
+                    <td colspan="2">창세기 2:1-3 (구약 2면) <button class="content-button" data-content-id="genesis-2-1">내용 보기</button></td>
+                    <td colspan="2">마태복음 11:28-30 (신약 18면) <button class="content-button" data-content-id="matthew-11-28">내용 보기</button></td>
+                </tr>
+                <tr class="no-internal-divider">
+                    <td>예물봉헌</td>
+                    <td colspan="4">다같이</td>
+                </tr>
+                <tr>
+                    <td>봉헌특송</td>
+                    <td>이유진 교우</td>
+                    <td>임영빈 교우</td>
+                    <td>이정현 교우</td>
+                    <td>이경미 집사</td>
+                </tr>
+                <tr class="no-internal-divider">
+                    <td>봉헌찬송</td>
+                    <td colspan="4">211장 「값비싼 향유를 주께 드린」 <a href="https://t1.daumcdn.net/cfile/tistory/992594505D4C205F10" target="_blank" class="hymn-button">악보 보기</a></td>
+                </tr>
+                <tr>
+                    <td>봉헌기도</td>
+                    <td colspan="2">이전호 목사</td>
+                    <td colspan="2">인도자</td>
+                </tr>
+                <tr>
+                    <td>교회소식</td>
+                    <td colspan="2">이전호 목사</td>
+                    <td colspan="2">인도자</td>
+                </tr>
+                <tr>
+                    <td>찬 양</td>
+                    <td>1부 「그 크신 하나님의 사랑」<span class="choir">갈보리찬양대</span></td>
+                    <td>2부 「기쁨의 소리 높여」<span class="choir">아멘찬양대</span></td>
+                    <td>3부 「시편 23편」<span class="choir">시온찬양대</span></td>
+                    <td>4부 「목마른 내 영혼」<span class="choir">할렐루야찬양대</span></td>
+                </tr>
+                <tr>
+                    <td>말씀선포</td>
+                    <td colspan="2" class="sermon">“일터에 베푸신 하나님의 은총”<span class="preacher">이전호 목사</span></td>
+                    <td colspan="2" class="sermon">“마음 둘 곳”<span class="preacher">박종순 목사</span></td>
+                </tr>
+                <tr>
+                    <td>※ 찬 송</td>
+                    <td colspan="2">370장 「주 안에 있는 나에게」 <a href="https://t1.daumcdn.net/cfile/tistory/99D72E3E5D5E4BDB17" target="_blank" class="hymn-button">악보 보기</a></td>
+                    <td colspan="2">531장 「자비한 주께서 부르시네」 <a href="https://blog.kakaocdn.net/dn/buJOuw/btqExCmaSoV/jI2IKQXX3wJqjQ14pAuk7k/img.jpg" target="_blank" class="hymn-button">악보 보기</a></td>
+                </tr>
+                <tr class="no-internal-divider">
+                    <td>※ 축 도</td>
+                    <td colspan="4">설교자</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footer-notes">
+            <p>※ 표시는 일어서서</p>
+            <p><strong>*다음주일 기도:</strong> 1부: 노영옥 장로 2부: 노영옥 장로 3부: 홍승현 장로 4부: 김홍대 장로</p>
+        </div>
+    </div>
+
+    <!-- [MASTER'S ADDITION] 모달 HTML 구조 -->
+    <div id="contentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 id="modalTitle"></h3>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+<script>
+// [MASTER'S ADDITION] 모달 제어 스크립트
+document.addEventListener('DOMContentLoaded', function () {
+    const contentData = {
+        'apostles-creed': {
+            title: '사도신경',
+            type: 'simple',
+            content: `나는 전능하신 아버지 하나님, 천지의 창조주를 믿습니다.\n나는 그의 유일하신 아들, 우리 주 예수 그리스도를 믿습니다.\n그는 성령으로 잉태되어 동정녀 마리아에게서 나시고, 본디오 빌라도에게 고난을 받아 십자가에 못 박혀 죽으시고, 장사된 지 사흘 만에 죽은 자 가운데서 다시 살아나셨으며, 하늘에 오르시어 전능하신 하나님 우편에 앉아 계시다가 거기로부터 살아 있는 자와 죽은 자를 심판하러 오십니다.\n나는 성령을 믿으며, 거룩한 공교회와 성도의 교제와 죄를 용서 받는 것과 몸의 부활과 영생을 믿습니다. 아멘.`
+        },
+        'psalm-100-2': {
+            title: '시편 100:2',
+            type: 'simple',
+            content: '기쁨으로 여호와를 섬기며 노래하면서 그의 앞에 나아갈지어다'
+        },
+        'responsive-137': {
+            title: '성시교독 137번 (삼위일체)',
+            type: 'responsive',
+            content: [
+              { "speaker": "leader", "text": "예수께서 세례를 받으시고 곧 물에서 올라오실새 하늘이 열리고" },
+              { "speaker": "congregation", "text": "하나님이 성령이 비둘기 같이 내려 자기 위에 임하심을 보시더니" },
+              { "speaker": "leader", "text": "하늘로부터 소리가 있어 말씀하시되" },
+              { "speaker": "congregation", "text": "이는 내 사랑하는 아들이요 내 기뻐하는 자라 하시니라" },
+              { "speaker": "leader", "text": "그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의 이름으로 세례를 베풀고" },
+              { "speaker": "congregation", "text": "내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라" },
+              { "speaker": "leader", "text": "볼지어다 내가 세상 끝날까지 너희와 항상 함께 있으리라 하시니라" },
+              { "speaker": "congregation", "text": "몸이 하나요 성령도 한 분이시니 이와 같이 너희가 부르심의 한 소망 안에서 부르심을 받았느니라" },
+              { "speaker": "leader", "text": "주도 한 분이시오 믿음도 하나요 세례도 하나요 하나님도 한 분이시니" },
+              { "speaker": "all", "text": "곧 만유의 아버지시라 만유 위에 계시고 만유를 통일하시고 만유 가운데 계시도다" }
+            ]
+        },
+        'genesis-2-1': {
+            title: '창세기 2:1-3',
+            type: 'scripture',
+            content: `1. 천지와 만물이 다 이루어지니라\n2. 하나님이 그가 하시던 일을 일곱째 날에 마치시니 그가 하시던 모든 일을 그치고 일곱째 날에 안식하시니라\n3. 하나님이 그 일곱째 날을 복되게 하사 거룩하게 하셨으니 이는 하나님이 그 창조하시며 만드시던 모든 일을 마치시고 그 날에 안식하셨음이니라`
+        },
+        'matthew-11-28': {
+            title: '마태복음 11:28-30',
+            type: 'scripture',
+            content: `28. 수고하고 무거운 짐 진 자들아 다 내게로 오라 내가 너희를 쉬게 하리라\n29. 나는 마음이 온유하고 겸손하니 나의 멍에를 메고 내게 배우라 그리하면 너희 마음이 쉼을 얻으리니\n30. 이는 내 멍에는 쉽고 내 짐은 가벼움이라 하시니라`
+        }
+    };
+
+    const modal = document.getElementById('contentModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const closeButton = document.querySelector('.close-button');
+
+    function openModal(contentId) {
+        const data = contentData[contentId];
+        if (!data) return;
+
+        modalTitle.textContent = data.title;
+        let html = '';
+
+        switch (data.type) {
+            case 'simple':
+                html = data.content.split('\n').map(p => `<p>${p}</p>`).join('');
+                break;
+            case 'scripture':
+                html = '<div class="scripture-body">' + data.content.split('\n').map(line => {
+                    const parts = line.match(/^(\d+)\.\s*(.*)/);
+                    if (parts) {
+                        return `<p><span class="verse-number">${parts[1]}.</span>${parts[2]}</p>`;
+                    }
+                    return `<p>${line}</p>`;
+                }).join('') + '</div>';
+                break;
+            case 'responsive':
+                const speakerMap = { leader: '인도자', congregation: '회중', all: '다같이' };
+                html = data.content.map(item => `
+                    <div class="responsive-reading-item">
+                        <span class="speaker-label speaker-${item.speaker}">${speakerMap[item.speaker]}</span>
+                        <span>${item.text}</span>
+                    </div>
+                `).join('');
+                break;
+        }
+        
+        modalBody.innerHTML = html;
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    document.querySelectorAll('.content-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const contentId = this.dataset.contentId;
+            openModal(contentId);
+        });
+    });
+
+    closeButton.addEventListener('click', closeModal);
+
+    window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    });
+
+    window.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modal.style.display === 'flex') {
+            closeModal();
+        }
+    });
+});
+</script>
+
+</body>
+</html>
