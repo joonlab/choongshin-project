@@ -2,15 +2,19 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>주일예배 주보</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             background-color: #f0f2f5;
             margin: 0;
-            padding: 2rem 1rem;
+            padding: 1rem 0.5rem;
         }
 
         .bulletin-container {
@@ -18,7 +22,7 @@
             width: 100%;
             max-width: 900px;
             margin: 0 auto;
-            padding: 25px;
+            padding: 15px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             border-radius: 8px;
             background-color: #fff;
@@ -32,7 +36,7 @@
 
         .header h2 {
             text-align: center;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             margin: 0;
             color: #333;
@@ -40,20 +44,27 @@
 
         .header .date-info {
             text-align: right;
-            font-size: 14px;
+            font-size: 12px;
             color: #666;
             margin: 5px 0 0;
         }
 
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .bulletin-table {
             width: 100%;
+            min-width: 600px;
             border-collapse: collapse;
-            font-size: 15px;
+            font-size: 13px;
         }
 
         .bulletin-table th, .bulletin-table td {
             border-bottom: 1px solid #e9e3f3;
-            padding: 12px 10px;
+            padding: 8px 5px;
             vertical-align: middle;
             text-align: center;
         }
@@ -77,7 +88,7 @@
             background-color: #6a4c9c;
             color: white;
             font-weight: 500;
-            font-size: 16px;
+            font-size: 14px;
             border-bottom: 2px solid #4a356d;
         }
         
@@ -86,36 +97,38 @@
         }
 
         .bulletin-table tbody td:first-child {
-            width: 120px;
+            width: 80px;
             font-weight: 700;
             color: #333;
             background-color: #f8f6fb;
+            font-size: 12px;
         }
         
-        .choir { font-size: 0.9em; color: #777; font-weight: 400; display: block; margin-top: 4px; }
-        .sermon { font-size: 1.1em; font-weight: 500; }
-        .preacher { display: block; font-weight: 400; font-size: 0.9em; margin-top: 4px; }
+        .choir { font-size: 0.85em; color: #777; font-weight: 400; display: block; margin-top: 2px; }
+        .sermon { font-size: 1em; font-weight: 500; }
+        .preacher { display: block; font-weight: 400; font-size: 0.85em; margin-top: 2px; }
 
         /* [MASTER'S ADDITION] 버튼 스타일 */
         .hymn-button, .content-button {
             display: inline-block;
             color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            margin-left: 8px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            margin-left: 5px;
             text-decoration: none;
             border: none;
             cursor: pointer;
             transition: background-color 0.2s;
             vertical-align: middle;
+            white-space: nowrap;
         }
         .hymn-button { background-color: #6a4c9c; }
         .hymn-button:hover { background-color: #583f87; }
         .content-button { background-color: #8e7cc3; }
         .content-button:hover { background-color: #7b68b0; }
 
-        .footer-notes { padding-top: 15px; margin-top: 20px; font-size: 14px; color: #555; line-height: 1.7; }
+        .footer-notes { padding-top: 15px; margin-top: 20px; font-size: 12px; color: #555; line-height: 1.6; }
         .footer-notes p { margin: 4px 0; }
         .footer-notes strong { font-weight: 700; color: #333; }
 
@@ -136,13 +149,15 @@
         .modal-content {
             background-color: #fff;
             margin: auto;
-            padding: 25px 30px;
+            padding: 20px;
             border-radius: 8px;
             width: 90%;
             max-width: 650px;
             position: relative;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             animation: fadeIn 0.3s;
+            max-height: 85vh;
+            overflow-y: auto;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -162,36 +177,148 @@
         }
 
         #modalTitle {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             color: #333;
             margin-top: 0;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 1px solid #eee;
         }
-        #modalBody { max-height: 65vh; overflow-y: auto; line-height: 1.8; color: #444; font-size: 16px; }
+        #modalBody { max-height: 60vh; overflow-y: auto; line-height: 1.7; color: #444; font-size: 14px; }
         
-        #modalBody p { margin: 0 0 1em 0; }
+        #modalBody p { margin: 0 0 0.8em 0; }
         #modalBody p:last-child { margin-bottom: 0; }
         
         .scripture-body .verse-number { font-weight: bold; color: #6a4c9c; margin-right: 5px; }
         
-        .responsive-reading-item { display: flex; align-items: flex-start; margin-bottom: 12px; }
+        .responsive-reading-item { display: flex; align-items: flex-start; margin-bottom: 10px; }
         .speaker-label {
             flex-shrink: 0;
-            width: 60px;
-            padding: 3px 8px;
-            border-radius: 4px;
+            width: 50px;
+            padding: 2px 6px;
+            border-radius: 3px;
             color: white;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
             text-align: center;
-            margin-right: 12px;
+            margin-right: 10px;
         }
         .speaker-leader { background-color: #6a4c9c; }
         .speaker-congregation { background-color: #a089c8; }
         .speaker-all { background-color: #4a356d; }
+
+        /* 모바일 최적화 미디어 쿼리 */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 0.5rem 0.25rem;
+            }
+            
+            .bulletin-container {
+                padding: 10px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            }
+            
+            .header h2 {
+                font-size: 20px;
+            }
+            
+            .header .date-info {
+                font-size: 11px;
+            }
+            
+            .bulletin-table {
+                font-size: 11px;
+                min-width: auto;
+            }
+            
+            .bulletin-table th, .bulletin-table td {
+                padding: 6px 3px;
+            }
+            
+            .bulletin-table thead th {
+                font-size: 12px;
+            }
+            
+            .bulletin-table tbody td:first-child {
+                width: 60px;
+                font-size: 11px;
+            }
+            
+            .hymn-button, .content-button {
+                font-size: 10px;
+                padding: 2px 5px;
+                margin-left: 3px;
+            }
+            
+            .choir {
+                font-size: 0.8em;
+            }
+            
+            .sermon {
+                font-size: 0.95em;
+            }
+            
+            .preacher {
+                font-size: 0.8em;
+            }
+            
+            .footer-notes {
+                font-size: 11px;
+            }
+            
+            .modal-content {
+                padding: 15px;
+                width: 95%;
+            }
+            
+            #modalTitle {
+                font-size: 18px;
+            }
+            
+            #modalBody {
+                font-size: 13px;
+            }
+            
+            .speaker-label {
+                width: 45px;
+                font-size: 11px;
+            }
+        }
+
+        /* 매우 작은 화면 대응 */
+        @media screen and (max-width: 480px) {
+            .bulletin-table thead th {
+                font-size: 11px;
+                padding: 5px 2px;
+            }
+            
+            .bulletin-table {
+                font-size: 10px;
+            }
+            
+            .bulletin-table tbody td:first-child {
+                font-size: 10px;
+            }
+        }
+
+        /* 스크롤 힌트 표시 */
+        .table-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .table-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+        
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
     </style>
 </head>
 <body>
@@ -202,114 +329,117 @@
             <p class="date-info">2025. 6. 22. 제68권 25호</p>
         </div>
 
-        <table class="bulletin-table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>1부 예배 (07:00)</th>
-                    <th>2부 예배 (08:30)</th>
-                    <th>3부 예배 (10:00)</th>
-                    <th>4부 예배 (12:00)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>인 도</td>
-                    <td>송이레 목사</td>
-                    <td>오상균 목사</td>
-                    <td>박성열 목사</td>
-                    <td>김현수 목사</td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>예배로부름</td>
-                    <td colspan="4">「기쁨으로 여호와를 섬기며 노래하면서 그의 앞에 나아갈지어다」 시편 100:2 <button class="content-button" data-content-id="psalm-100-2">내용 보기</button></td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>※ 송 영</td>
-                    <td colspan="4">621장 「찬양하라 내 영혼아」 <a href="https://blog.kakaocdn.net/dn/bgP4ml/btqEFJfK9wR/skCfXMZBoY6bjhwkfMKx11/img.jpg" target="_blank" class="hymn-button">악보 보기</a></td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>※ 개 회 송</td>
-                    <td colspan="4">오르간</td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>기 원</td>
-                    <td colspan="4">인도자</td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>송 영</td>
-                    <td colspan="4">3장 「성부 성자와 성령」 <a href="https://t1.daumcdn.net/cfile/tistory/99A83E345A5841AF08" target="_blank" class="hymn-button">악보 보기</a></td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>※ 성시교독</td>
-                    <td colspan="4">14번 <button class="content-button" data-content-id="responsive-14">내용 보기</button></td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>※ 사도신경</td>
-                    <td colspan="4">다같이 <button class="content-button" data-content-id="apostles-creed">내용 보기</button></td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>찬 송</td>
-                    <td colspan="4">35장 「큰 영화로신 주」 <a href="https://t1.daumcdn.net/cfile/tistory/996E59475A584F4503" target="_blank" class="hymn-button">악보 보기</a></td>
-                </tr>
-                <tr>
-                    <td>기 도</td>
-                    <td>노영옥 장로</td>
-                    <td>노영옥 장로</td>
-                    <td>홍승현 장로</td>
-                    <td>김홍대 장로</td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>성경봉독</td>
-                    <td colspan="4">에베소서 6:5-9 (신약 316면) <button class="content-button" data-content-id="ephesians-6-5">내용 보기</button></td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>예물봉헌</td>
-                    <td colspan="4">다같이</td>
-                </tr>
-                <tr>
-                    <td>봉헌특송</td>
-                    <td>양은정 교우</td>
-                    <td>디아메니스트</td>
-                    <td>이세진 집사</td>
-                    <td>김은정 집사</td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>봉헌찬송</td>
-                    <td colspan="4">211장 「값비싼 향유를 주께 드린」 <a href="https://t1.daumcdn.net/cfile/tistory/992594505D4C205F10" target="_blank" class="hymn-button">악보 보기</a></td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>봉헌기도</td>
-                    <td colspan="4">이전호 목사</td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>교회소식</td>
-                    <td colspan="4">이전호 목사</td>
-                </tr>
-                <tr>
-                    <td>찬 양</td>
-                    <td>1부 「말씀으로 이루시네」<span class="choir">갈보리찬양대</span></td>
-                    <td>2부 「날마다 더 가까이」<span class="choir">아멘찬양대</span></td>
-                    <td>3부 「이 세상 험하고」<span class="choir">시온찬양대</span></td>
-                    <td>4부 「이 모든것이 주님의 은혜라」<span class="choir">할렐루야찬양대</span></td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>말씀선포</td>
-                    <td colspan="4" class="sermon">“누구에게든지 주께 하듯 하라”<span class="preacher">이전호 목사</span></td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>※ 찬 송</td>
-                    <td colspan="4">314장 「내 구주 예수를 더욱 사랑」 <a href="https://t1.daumcdn.net/cfile/tistory/997D93455D5E422D2E" target="_blank" class="hymn-button">악보 보기</a></td>
-                </tr>
-                <tr class="no-internal-divider">
-                    <td>※ 축 도</td>
-                    <td colspan="4">설교자</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-wrapper">
+            <table class="bulletin-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>1부 예배 (07:00)</th>
+                        <th>2부 예배 (08:30)</th>
+                        <th>3부 예배 (10:00)</th>
+                        <th>4부 예배 (12:00)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>인 도</td>
+                        <td>송이레 목사</td>
+                        <td>오상균 목사</td>
+                        <td>박성열 목사</td>
+                        <td>김현수 목사</td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>예배로부름</td>
+                        <td colspan="4">「기쁨으로 여호와를 섬기며 노래하면서 그의 앞에 나아갈지어다」 시편 100:2 <button class="content-button" data-content-id="psalm-100-2">내용 보기</button></td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>※ 송 영</td>
+                        <td colspan="4">621장 「찬양하라 내 영혼아」 <a href="https://blog.kakaocdn.net/dn/bgP4ml/btqEFJfK9wR/skCfXMZBoY6bjhwkfMKx11/img.jpg" target="_blank" class="hymn-button">악보 보기</a></td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>※ 개 회 송</td>
+                        <td colspan="4">오르간</td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>기 원</td>
+                        <td colspan="4">인도자</td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>송 영</td>
+                        <td colspan="4">3장 「성부 성자와 성령」 <a href="https://t1.daumcdn.net/cfile/tistory/99A83E345A5841AF08" target="_blank" class="hymn-button">악보 보기</a></td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>※ 성시교독</td>
+                        <td colspan="4">14번 <button class="content-button" data-content-id="responsive-14">내용 보기</button></td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>※ 사도신경</td>
+                        <td colspan="4">다같이 <button class="content-button" data-content-id="apostles-creed">내용 보기</button></td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>찬 송</td>
+                        <td colspan="4">35장 「큰 영화로신 주」 <a href="https://t1.daumcdn.net/cfile/tistory/996E59475A584F4503" target="_blank" class="hymn-button">악보 보기</a></td>
+                    </tr>
+                    <tr>
+                        <td>기 도</td>
+                        <td>노영옥 장로</td>
+                        <td>노영옥 장로</td>
+                        <td>홍승현 장로</td>
+                        <td>김홍대 장로</td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>성경봉독</td>
+                        <td colspan="4">에베소서 6:5-9 (신약 316면) <button class="content-button" data-content-id="ephesians-6-5">내용 보기</button></td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>예물봉헌</td>
+                        <td colspan="4">다같이</td>
+                    </tr>
+                    <tr>
+                        <td>봉헌특송</td>
+                        <td>양은정 교우</td>
+                        <td>디아메니스트</td>
+                        <td>이세진 집사</td>
+                        <td>김은정 집사</td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>봉헌찬송</td>
+                        <td colspan="4">211장 「값비싼 향유를 주께 드린」 <a href="https://t1.daumcdn.net/cfile/tistory/992594505D4C205F10" target="_blank" class="hymn-button">악보 보기</a></td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>봉헌기도</td>
+                        <td colspan="4">이전호 목사</td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>교회소식</td>
+                        <td colspan="4">이전호 목사</td>
+                    </tr>
+                    <tr>
+                        <td>찬 양</td>
+                        <td>1부 「말씀으로 이루시네」<span class="choir">갈보리찬양대</span></td>
+                        <td>2부 「날마다 더 가까이」<span class="choir">아멘찬양대</span></td>
+                        <td>3부 「이 세상 험하고」<span class="choir">시온찬양대</span></td>
+                        <td>4부 「이 모든것이 주님의 은혜라」<span class="choir">할렐루야찬양대</span></td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>말씀선포</td>
+                        <td colspan="4" class="sermon">"누구에게든지 주께 하듯 하라"<span class="preacher">이전호 목사</span></td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>※ 찬 송</td>
+                        <td colspan="4">314장 「내 구주 예수를 더욱 사랑」 <a href="https://t1.daumcdn.net/cfile/tistory/997D93455D5E422D2E" target="_blank" class="hymn-button">악보 보기</a></td>
+                    </tr>
+                    <tr class="no-internal-divider">
+                        <td>※ 축 도</td>
+                        <td colspan="4">설교자</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="footer-notes">
             <p>※ 표시는 일어서서</p>
-            <p><strong>*다음주일 기도:</strong> 1부: 김덕호 장로 2부: 김덕호 장로 3부: 김주은 장로 4부: 이용식A 장로</p>
+            <p><strong>*다음주일 기도:</strong><br>
+            1부: 김덕호 장로 2부: 김덕호 장로 3부: 김주은 장로 4부: 이용식A 장로</p>
         </div>
     </div>
 
