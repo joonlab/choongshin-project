@@ -60,6 +60,7 @@
             min-width: 600px;
             border-collapse: collapse;
             font-size: 13px;
+            table-layout: fixed;
         }
 
         .bulletin-table th, .bulletin-table td {
@@ -92,12 +93,20 @@
             border-bottom: 2px solid #4a356d;
         }
         
+        .bulletin-table thead th:nth-child(2),
+        .bulletin-table thead th:nth-child(3),
+        .bulletin-table thead th:nth-child(4),
+        .bulletin-table thead th:nth-child(5) {
+            width: 20%;
+        }
+        
         .bulletin-table thead th:first-child {
             background-color: transparent;
+            width: 20%;
         }
 
         .bulletin-table tbody td:first-child {
-            width: 80px;
+            width: 20%;
             font-weight: 700;
             color: #333;
             background-color: #f8f6fb;
@@ -230,6 +239,7 @@
             .bulletin-table {
                 font-size: 11px;
                 min-width: auto;
+                table-layout: fixed;
             }
             
             .bulletin-table th, .bulletin-table td {
@@ -241,7 +251,7 @@
             }
             
             .bulletin-table tbody td:first-child {
-                width: 60px;
+                width: 20%;
                 font-size: 11px;
             }
             
@@ -325,7 +335,7 @@
 
     <div class="bulletin-container">
         <div class="header">
-            <h2>주일예배</h2>
+            <h2>충신교회 주일예배</h2>
             <p class="date-info">2025. 6. 22. 제68권 25호</p>
         </div>
 
@@ -361,11 +371,11 @@
                         <td colspan="4">오르간</td>
                     </tr>
                     <tr class="no-internal-divider">
-                        <td>기 원</td>
+                        <td>※ 기 원</td>
                         <td colspan="4">인도자</td>
                     </tr>
                     <tr class="no-internal-divider">
-                        <td>송 영</td>
+                        <td>※ 송 영</td>
                         <td colspan="4">3장 「성부 성자와 성령」 <a href="https://t1.daumcdn.net/cfile/tistory/99A83E345A5841AF08" target="_blank" class="hymn-button">악보 보기</a></td>
                     </tr>
                     <tr class="no-internal-divider">
