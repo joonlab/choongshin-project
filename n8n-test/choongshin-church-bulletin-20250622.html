@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -195,9 +197,18 @@
             border-bottom: 1px solid #eee;
         }
         #modalBody { max-height: 60vh; overflow-y: auto; line-height: 1.7; color: #444; font-size: 14px; }
-        
+
         #modalBody p { margin: 0 0 0.8em 0; }
         #modalBody p:last-child { margin-bottom: 0; }
+
+        /* 악보 이미지 스타일 */
+        #modalBody img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 4px;
+        }
         
         .scripture-body .verse-number { font-weight: bold; color: #6a4c9c; margin-right: 5px; }
         
@@ -364,7 +375,7 @@
                     </tr>
                     <tr class="no-internal-divider">
                         <td>※ 송 영</td>
-                        <td colspan="4">621장 「찬양하라 내 영혼아」 <a href="https://blog.kakaocdn.net/dn/bgP4ml/btqEFJfK9wR/skCfXMZBoY6bjhwkfMKx11/img.jpg" target="_blank" class="hymn-button">악보 보기</a></td>
+                        <td colspan="4">621장 「찬양하라 내 영혼아」 <button class="hymn-button" data-hymn-url="https://blog.kakaocdn.net/dn/bgP4ml/btqEFJfK9wR/skCfXMZBoY6bjhwkfMKx11/img.jpg">악보 보기</button></td>
                     </tr>
                     <tr class="no-internal-divider">
                         <td>※ 개 회 송</td>
@@ -376,7 +387,7 @@
                     </tr>
                     <tr class="no-internal-divider">
                         <td>※ 송 영</td>
-                        <td colspan="4">3장 「성부 성자와 성령」 <a href="https://t1.daumcdn.net/cfile/tistory/99A83E345A5841AF08" target="_blank" class="hymn-button">악보 보기</a></td>
+                        <td colspan="4">3장 「성부 성자와 성령」 <button class="hymn-button" data-hymn-url="https://t1.daumcdn.net/cfile/tistory/99A83E345A5841AF08">악보 보기</button></td>
                     </tr>
                     <tr class="no-internal-divider">
                         <td>※ 성시교독</td>
@@ -388,7 +399,7 @@
                     </tr>
                     <tr class="no-internal-divider">
                         <td>찬 송</td>
-                        <td colspan="4">35장 「큰 영화로신 주」 <a href="https://t1.daumcdn.net/cfile/tistory/996E59475A584F4503" target="_blank" class="hymn-button">악보 보기</a></td>
+                        <td colspan="4">35장 「큰 영화로신 주」 <button class="hymn-button" data-hymn-url="https://t1.daumcdn.net/cfile/tistory/996E59475A584F4503">악보 보기</button></td>
                     </tr>
                     <tr>
                         <td>기 도</td>
@@ -414,7 +425,7 @@
                     </tr>
                     <tr class="no-internal-divider">
                         <td>봉헌찬송</td>
-                        <td colspan="4">211장 「값비싼 향유를 주께 드린」 <a href="https://t1.daumcdn.net/cfile/tistory/992594505D4C205F10" target="_blank" class="hymn-button">악보 보기</a></td>
+                        <td colspan="4">211장 「값비싼 향유를 주께 드린」 <button class="hymn-button" data-hymn-url="https://t1.daumcdn.net/cfile/tistory/992594505D4C205F10">악보 보기</button></td>
                     </tr>
                     <tr class="no-internal-divider">
                         <td>봉헌기도</td>
@@ -437,7 +448,7 @@
                     </tr>
                     <tr class="no-internal-divider">
                         <td>※ 찬 송</td>
-                        <td colspan="4">314장 「내 구주 예수를 더욱 사랑」 <a href="https://t1.daumcdn.net/cfile/tistory/997D93455D5E422D2E" target="_blank" class="hymn-button">악보 보기</a></td>
+                        <td colspan="4">314장 「내 구주 예수를 더욱 사랑」 <button class="hymn-button" data-hymn-url="https://t1.daumcdn.net/cfile/tistory/997D93455D5E422D2E">악보 보기</button></td>
                     </tr>
                     <tr class="no-internal-divider">
                         <td>※ 축 도</td>
@@ -547,6 +558,18 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', function() {
             const contentId = this.dataset.contentId;
             openModal(contentId);
+        });
+    });
+
+    // 악보 보기 버튼 이벤트 처리
+    document.querySelectorAll('.hymn-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const hymnUrl = this.dataset.hymnUrl;
+            if (hymnUrl) {
+                modalTitle.textContent = '악보';
+                modalBody.innerHTML = `<img src="${hymnUrl}" alt="악보 이미지" loading="lazy">`;
+                modal.style.display = 'flex';
+            }
         });
     });
 
